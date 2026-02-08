@@ -1,7 +1,8 @@
 import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
 
-export const runtime = "edge";
+// Remove edge runtime to use regular serverless function
+// export const runtime = "edge";
 
 export async function GET(req: NextRequest) {
   const inter = await fetch(
