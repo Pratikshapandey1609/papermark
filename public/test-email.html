@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Configuration Test - Papermark</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 6px;
+            border-left: 4px solid #4CAF50;
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 18px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .status-ok {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📧 Email Configuration Test</h1>
+        <p class="subtitle">Test your Papermark email configuration</p>
+
+        <!-- Test 1: Check Configuration -->
+        <div class="section">
+            <h2>1. Check Email Configuration</h2>
+            <p>Verify that environment variables are loaded correctly.</p>
+            <button onclick="checkConfig()">Check Configuration</button>
+            <div id="config-result"></div>
+        </div>
+
+        <!-- Test 2: Send Test Email -->
+        <div class="section">
+            <h2>2. Send Test Email</h2>
+            <p>Send a test email to verify SMTP is working.</p>
+            <input type="email" id="test-email" placeholder="Enter email address" value="vprisha272@gmail.com">
+            <button onclick="sendTestEmail()">Send Test Email</button>
+            <div id="send-result"></div>
+        </div>
+
+        <!-- Test 3: Preview Email -->
+        <div class="section">
+            <h2>3. Preview Email Content</h2>
+            <p>See what the verification email looks like before sending.</p>
+            <button onclick="window.open('/api/test-email-preview', '_blank')">Preview Email</button>
+        </div>
+
+        <!-- Test 4: Login Flow -->
+        <div class="section">
+            <h2>4. Test Login Flow</h2>
+            <p>Test the actual login email flow (same as clicking "Continue with Email" on login page).</p>
+            <button onclick="window.location.href='/login'">Go to Login Page</button>
+        </div>
+
+        <!-- Gmail Delivery Warning -->
+        <div class="section" style="border-left-color: #ff9800;">
+            <h2>⚠️ Gmail Delivery Issue</h2>
+            <p><strong>If you're not receiving emails:</strong></p>
+            <ol>
+                <li><strong>Check Spam folder</strong> in your Gmail</li>
+                <li><strong>Check "All Mail"</strong> and search for "Papermark"</li>
+                <li><strong>Check Sent folder</strong> in vprisha272@gmail.com</li>
+                <li><strong>Wait 5-10 minutes</strong> - Gmail may delay delivery</li>
+                <li><strong>Try a different email</strong> (not Gmail)</li>
+            </ol>
+            <p>Gmail often blocks emails sent from Gmail SMTP to other Gmail addresses. See <code>EMAIL_DELIVERY_ISSUE.md</code> for solutions.</p>
+        </div>
+
+        <!-- Instructions -->
+        <div class="section" style="border-left-color: #2196F3;">
+            <h2>📋 Instructions</h2>
+            <ol>
+                <li><strong>Check Configuration:</strong> Click the button to verify environment variables are loaded</li>
+                <li><strong>Send Test Email:</strong> Enter your email and send a test message</li>
+                <li><strong>Check Terminal:</strong> Watch the terminal where <code>npm run dev</code> is running for detailed logs</li>
+                <li><strong>Check Inbox:</strong> Look for the test email (check spam folder too!)</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        async function checkConfig() {
+            const resultDiv = document.getElementById('config-result');
+            resultDiv.innerHTML = '<div class="result info">Loading...</div>';
+
+            try {
+                const response = await fetch('/api/test-email-config');
+                const data = await response.json();
+
+                let html = '<div class="result ' + (data.smtpConfigured || data.resendConfigured ? 'success' : 'error') + '">';
+                html += '<strong>Configuration Status:</strong>\n\n';
+                html += 'SMTP Configured: ' + (data.smtpConfigured ? '✅ YES' : '❌ NO') + '\n';
+                html += 'Resend Configured: ' + (data.resendConfigured ? '✅ YES' : '❌ NO') + '\n\n';
+                html += '<strong>Environment Variables:</strong>\n';
+                html += JSON.stringify(data.config, null, 2);
+                html += '</div>';
+
+                resultDiv.innerHTML = html;
+            } catch (error) {
+                resultDiv.innerHTML = '<div class="result error">Error: ' + error.message + '</div>';
+            }
+        }
+
+        async function sendTestEmail() {
+            const email = document.getElementById('test-email').value;
+            const resultDiv = document.getElementById('send-result');
+
+            if (!email) {
+                resultDiv.innerHTML = '<div class="result error">Please enter an email address</div>';
+                return;
+            }
+
+            resultDiv.innerHTML = '<div class="result info">Sending email to ' + email + '...\n\nCheck the terminal for detailed logs!</div>';
+
+            try {
+                const response = await fetch('/api/test-send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ to: email }),
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    resultDiv.innerHTML = '<div class="result success">✅ Email sent successfully to ' + email + '!\n\nCheck your inbox (and spam folder).\n\nResponse: ' + JSON.stringify(data, null, 2) + '</div>';
+                } else {
+                    resultDiv.innerHTML = '<div class="result error">❌ Failed to send email\n\nError: ' + data.error + '\n\nDetails: ' + (data.details || 'No details available') + '</div>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<div class="result error">❌ Request failed\n\nError: ' + error.message + '</div>';
+            }
+        }
+
+        // Auto-check configuration on page load
+        window.addEventListener('load', () => {
+            console.log('📧 Email test page loaded');
+            console.log('💡 Tip: Open the terminal where "npm run dev" is running to see detailed logs');
+        });
+    </script>
+</body>
+</html>
