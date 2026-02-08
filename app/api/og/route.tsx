@@ -5,6 +5,9 @@ import { NextRequest } from "next/server";
 // Remove edge runtime to use regular serverless function
 // export const runtime = "edge";
 
+// Mark as dynamic to prevent static generation
+export const dynamic = 'force-dynamic';
+
 /**
  * @name Headline Template
  * @description Make it pop with a headline
