@@ -10,6 +10,7 @@ export async function startServerPasskeyRegistration({
   session: Session;
 }) {
   if (!session) throw new Error("Not logged in");
+  if (!hanko) throw new Error("Hanko not configured");
 
   const sessionUser = session.user as CustomUser;
 
@@ -26,8 +27,6 @@ export async function startServerPasskeyRegistration({
   return createOptions;
 }
 
-// This is *your* server-side code; you need to implement this yourself.
-// NextAuth takes care of logging in the user after they have registered their passkey.
 export async function finishServerPasskeyRegistration({
   credential,
   session,
@@ -36,6 +35,7 @@ export async function finishServerPasskeyRegistration({
   session: Session;
 }) {
   if (!session) throw new Error("Not logged in");
+  if (!hanko) throw new Error("Hanko not configured");
 
   await hanko.registration.finalize(credential);
 
