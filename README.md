@@ -123,6 +123,24 @@ BLOB_READ_WRITE_TOKEN=your_token_here
 NEXT_PUBLIC_UPLOAD_TRANSPORT="vercel"
 ```
 
+#### Firebase (Optional Alternative)
+Firebase can be used for additional features like real-time database, cloud storage, and analytics.
+
+1. Create a Firebase project at [Firebase Console](https://console.firebase.google.com/)
+2. Register your web app and copy the configuration
+3. Add Firebase credentials to `.env`:
+```env
+NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.firebasestorage.app
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=your_measurement_id
+```
+
+See [Firebase Setup Guide](./lib/firebase/README.md) for detailed instructions.
+
 ## Project Structure
 
 ```
