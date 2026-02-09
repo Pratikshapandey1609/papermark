@@ -54,7 +54,7 @@ export default function Register() {
             signIn("email", {
               email: email,
               redirect: false,
-              ...(next && next.length > 0 ? { callbackUrl: next } : {}),
+              callbackUrl: next && next.length > 0 ? next : "/documents",
             }).then((res) => {
               if (res?.ok && !res?.error) {
                 setEmail("");
@@ -78,7 +78,7 @@ export default function Register() {
           <Button
             onClick={() => {
               signIn("google", {
-                ...(next && next.length > 0 ? { callbackUrl: next } : {}),
+                callbackUrl: next && next.length > 0 ? next : "/documents",
               });
             }}
             className="flex items-center justify-center space-x-2"
@@ -96,7 +96,7 @@ export default function Register() {
           <Button
             onClick={() => {
               signIn("github", {
-                ...(next && next.length > 0 ? { callbackUrl: next } : {}),
+                callbackUrl: next && next.length > 0 ? next : "/documents",
               });
             }}
             className="flex items-center justify-center space-x-2"

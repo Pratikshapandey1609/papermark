@@ -65,7 +65,7 @@ export default function Login() {
               signIn("email", {
                 email: email,
                 redirect: false,
-                ...(next && next.length > 0 ? { callbackUrl: next } : {}),
+                callbackUrl: next && next.length > 0 ? next : "/documents",
               }).then((res) => {
                 if (res?.ok && !res?.error) {
                   setEmail("");
@@ -126,7 +126,7 @@ export default function Login() {
                   setClickedMethod("google");
                   setLastUsed("google");
                   signIn("google", {
-                    ...(next && next.length > 0 ? { callbackUrl: next } : {}),
+                    callbackUrl: next && next.length > 0 ? next : "/documents",
                   }).then((res) => {
                     if (res?.status) {
                       setClickedMethod(undefined);
@@ -150,7 +150,7 @@ export default function Login() {
                   setClickedMethod("github");
                   setLastUsed("github");
                   signIn("github", {
-                    ...(next && next.length > 0 ? { callbackUrl: next } : {}),
+                    callbackUrl: next && next.length > 0 ? next : "/documents",
                   }).then((res) => {
                     if (res?.status) {
                       setClickedMethod(undefined);
