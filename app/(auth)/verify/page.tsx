@@ -21,10 +21,34 @@ export default function VerifyPage({
   const isValidVerificationUrl = (url: string, checksum: string): boolean => {
     try {
       const urlObj = new URL(url);
-      if (urlObj.origin !== process.env.NEXTAUTH_URL) return false;
+      
+      // Log for debugging
+      console.log('🔍 [Verify] Validating URL...');
+      console.log('🔍 [Verify] URL origin:', urlObj.origin);
+      console.log('🔍 [Verify] NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
+      console.log('🔍 [Verify] Checksum provided:', checksum);
+      
+      // Check origin - allow production URL
+      const allowedOrigins = [
+        process.env.NEXTAUTH_URL,
+        'https://papermark1-sigma.vercel.app',
+      ].filter(Boolean);
+      
+      if (!allowedOrigins.includes(urlObj.origin)) {
+        console.log('❌ [Verify] Origin not allowed');
+        return false;
+      }
+      
+      // Verify checksum
       const expectedChecksum = generateChecksum(url);
-      return checksum === expectedChecksum;
-    } catch {
+      console.log('🔍 [Verify] Expected checksum:', expectedChecksum);
+      
+      const isValid = checksum === expectedChecksum;
+      console.log(isValid ? '✅ [Verify] Validation passed' : '❌ [Verify] Checksum mismatch');
+      
+      return isValid;
+    } catch (error) {
+      console.error('❌ [Verify] Validation error:', error);
       return false;
     }
   };
