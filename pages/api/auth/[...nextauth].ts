@@ -43,6 +43,20 @@ export const authOptions: NextAuthOptions = {
         console.log('🔑 [NextAuth] SEND_EMAILS:', process.env.SEND_EMAILS);
         console.log('🔑 [NextAuth] NODE_ENV:', process.env.NODE_ENV);
         
+        // Fix the callbackUrl to redirect to /documents instead of /login
+        const urlObj = new URL(url);
+        const currentCallbackUrl = urlObj.searchParams.get('callbackUrl');
+        
+        // If callbackUrl points to /login, change it to /documents
+        if (currentCallbackUrl && currentCallbackUrl.includes('/login')) {
+          const callbackUrlObj = new URL(currentCallbackUrl);
+          callbackUrlObj.pathname = '/documents';
+          urlObj.searchParams.set('callbackUrl', callbackUrlObj.toString());
+          url = urlObj.toString();
+          console.log('🔧 [NextAuth] Fixed callbackUrl to redirect to /documents');
+          console.log('🔧 [NextAuth] New URL:', url);
+        }
+        
         // Always send emails if SEND_EMAILS is true, otherwise only in production
         const shouldSendEmail = process.env.SEND_EMAILS === "true" || process.env.NODE_ENV === "production";
         console.log('🔑 [NextAuth] Should send email:', shouldSendEmail);
