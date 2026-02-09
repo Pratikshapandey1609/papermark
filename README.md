@@ -12,7 +12,7 @@ Papermark is a modern document sharing platform developed during my **Full-Stack
 ## 🏢 Internship Details
 
 * **Role:** Full-Stack Developer Intern
-* **Company:** **InnovexWeb Technology**
+* **Company:** **GravatonWeb Technology**
 * **Project:** Papermark – Document Sharing Platform
 * **Tech Responsibility:** Frontend, Backend, Database, Auth, Deployment
 
@@ -167,7 +167,7 @@ During this internship project, I gained hands-on experience in:
 
 **Pratiksha Pandey**
 Full-Stack Developer Intern
-**InnovexWeb Technology**
+**GravatonWeb Technology**
 
 ---
 
