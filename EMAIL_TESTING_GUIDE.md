@@ -22,9 +22,9 @@ Your `.env` file has the correct SMTP settings:
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_SECURE=false
-SMTP_USER=vprisha272@gmail.com
-SMTP_PASS=yhgonlqbbuoidzyz
-SMTP_FROM=vprisha272@gmail.com
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-gmail-app-password
+SMTP_FROM=your-email@gmail.com
 SEND_EMAILS=true
 ```
 

@@ -8,11 +8,12 @@ const nextConfig = {
   },
   transpilePackages: ["@trigger.dev/react", "react-syntax-highlighter"],
   skipTrailingSlashRedirect: true,
-  assetPrefix:
-    process.env.NODE_ENV === "production" &&
-    process.env.VERCEL_ENV === "production"
-      ? process.env.NEXT_PUBLIC_BASE_URL
-      : undefined,
+  // assetPrefix removed - causes CSS loading issues in production
+  // assetPrefix:
+  //   process.env.NODE_ENV === "production" &&
+  //   process.env.VERCEL_ENV === "production"
+  //     ? process.env.NEXT_PUBLIC_BASE_URL
+  //     : undefined,
   async redirects() {
     return [
       // Removed root redirect - now showing custom landing page
