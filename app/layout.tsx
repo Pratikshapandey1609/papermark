@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import PlausibleProvider from "next-plausible";
+import NextAuthProvider from "@/components/providers/session-provider";
 
 import "@/styles/globals.css";
 
@@ -55,7 +56,9 @@ export default function RootLayout({
           enabled={process.env.NEXT_PUBLIC_VERCEL_ENV === "production"}
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <NextAuthProvider>{children}</NextAuthProvider>
+      </body>
     </html>
   );
 }

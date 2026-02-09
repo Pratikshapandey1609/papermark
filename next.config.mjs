@@ -15,11 +15,12 @@ const nextConfig = {
       : undefined,
   async redirects() {
     return [
-      {
-        source: "/",
-        destination: "/documents",
-        permanent: false,
-      },
+      // Removed root redirect - now showing custom landing page
+      // {
+      //   source: "/",
+      //   destination: "/documents",
+      //   permanent: false,
+      // },
       {
         source: "/view/cm2xiaxzo000d147xszm9q72o",
         destination: "/view/cm34cqqqx000212oekj9upn8o",
